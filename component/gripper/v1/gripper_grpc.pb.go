@@ -34,9 +34,11 @@ type GripperServiceClient interface {
 	// IsHoldingSomething returns whether the gripper is currently holding onto an object
 	IsHoldingSomething(ctx context.Context, in *IsHoldingSomethingRequest, opts ...grpc.CallOption) (*IsHoldingSomethingResponse, error)
 	// GetGripperPosition gets the current gripper position
-	GetGripperPosition(ctx context.Context, in *GetGripperPositionRequest, opts ...grpc.CallOption) (*GetGripperPositionResponse, error)
+	GetPosition(ctx context.Context, in *GetPositionRequest, opts ...grpc.CallOption) (*GetPositionResponse, error)
+	// SetGripperPosition sets the gripper to a specified position
+	MoveToPosition(ctx context.Context, in *MoveToPositionRequest, opts ...grpc.CallOption) (*MoveToPositionResponse, error)
 	// StreamGripperPosition streams gripper positions at a specified rate
-	StreamGripperPosition(ctx context.Context, in *StreamGripperPositionRequest, opts ...grpc.CallOption) (GripperService_StreamGripperPositionClient, error)
+	StreamPosition(ctx context.Context, in *StreamPositionRequest, opts ...grpc.CallOption) (GripperService_StreamPositionClient, error)
 	// DoCommand sends/receives arbitrary commands
 	DoCommand(ctx context.Context, in *v1.DoCommandRequest, opts ...grpc.CallOption) (*v1.DoCommandResponse, error)
 	// GetGeometries returns the geometries of the component in their current configuration
@@ -98,21 +100,30 @@ func (c *gripperServiceClient) IsHoldingSomething(ctx context.Context, in *IsHol
 	return out, nil
 }
 
-func (c *gripperServiceClient) GetGripperPosition(ctx context.Context, in *GetGripperPositionRequest, opts ...grpc.CallOption) (*GetGripperPositionResponse, error) {
-	out := new(GetGripperPositionResponse)
-	err := c.cc.Invoke(ctx, "/viam.component.gripper.v1.GripperService/GetGripperPosition", in, out, opts...)
+func (c *gripperServiceClient) GetPosition(ctx context.Context, in *GetPositionRequest, opts ...grpc.CallOption) (*GetPositionResponse, error) {
+	out := new(GetPositionResponse)
+	err := c.cc.Invoke(ctx, "/viam.component.gripper.v1.GripperService/GetPosition", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *gripperServiceClient) StreamGripperPosition(ctx context.Context, in *StreamGripperPositionRequest, opts ...grpc.CallOption) (GripperService_StreamGripperPositionClient, error) {
-	stream, err := c.cc.NewStream(ctx, &GripperService_ServiceDesc.Streams[0], "/viam.component.gripper.v1.GripperService/StreamGripperPosition", opts...)
+func (c *gripperServiceClient) MoveToPosition(ctx context.Context, in *MoveToPositionRequest, opts ...grpc.CallOption) (*MoveToPositionResponse, error) {
+	out := new(MoveToPositionResponse)
+	err := c.cc.Invoke(ctx, "/viam.component.gripper.v1.GripperService/MoveToPosition", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &gripperServiceStreamGripperPositionClient{stream}
+	return out, nil
+}
+
+func (c *gripperServiceClient) StreamPosition(ctx context.Context, in *StreamPositionRequest, opts ...grpc.CallOption) (GripperService_StreamPositionClient, error) {
+	stream, err := c.cc.NewStream(ctx, &GripperService_ServiceDesc.Streams[0], "/viam.component.gripper.v1.GripperService/StreamPosition", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &gripperServiceStreamPositionClient{stream}
 	if err := x.ClientStream.SendMsg(in); err != nil {
 		return nil, err
 	}
@@ -122,17 +133,17 @@ func (c *gripperServiceClient) StreamGripperPosition(ctx context.Context, in *St
 	return x, nil
 }
 
-type GripperService_StreamGripperPositionClient interface {
-	Recv() (*StreamGripperPositionResponse, error)
+type GripperService_StreamPositionClient interface {
+	Recv() (*StreamPositionResponse, error)
 	grpc.ClientStream
 }
 
-type gripperServiceStreamGripperPositionClient struct {
+type gripperServiceStreamPositionClient struct {
 	grpc.ClientStream
 }
 
-func (x *gripperServiceStreamGripperPositionClient) Recv() (*StreamGripperPositionResponse, error) {
-	m := new(StreamGripperPositionResponse)
+func (x *gripperServiceStreamPositionClient) Recv() (*StreamPositionResponse, error) {
+	m := new(StreamPositionResponse)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -181,9 +192,11 @@ type GripperServiceServer interface {
 	// IsHoldingSomething returns whether the gripper is currently holding onto an object
 	IsHoldingSomething(context.Context, *IsHoldingSomethingRequest) (*IsHoldingSomethingResponse, error)
 	// GetGripperPosition gets the current gripper position
-	GetGripperPosition(context.Context, *GetGripperPositionRequest) (*GetGripperPositionResponse, error)
+	GetPosition(context.Context, *GetPositionRequest) (*GetPositionResponse, error)
+	// SetGripperPosition sets the gripper to a specified position
+	MoveToPosition(context.Context, *MoveToPositionRequest) (*MoveToPositionResponse, error)
 	// StreamGripperPosition streams gripper positions at a specified rate
-	StreamGripperPosition(*StreamGripperPositionRequest, GripperService_StreamGripperPositionServer) error
+	StreamPosition(*StreamPositionRequest, GripperService_StreamPositionServer) error
 	// DoCommand sends/receives arbitrary commands
 	DoCommand(context.Context, *v1.DoCommandRequest) (*v1.DoCommandResponse, error)
 	// GetGeometries returns the geometries of the component in their current configuration
@@ -212,11 +225,14 @@ func (UnimplementedGripperServiceServer) IsMoving(context.Context, *IsMovingRequ
 func (UnimplementedGripperServiceServer) IsHoldingSomething(context.Context, *IsHoldingSomethingRequest) (*IsHoldingSomethingResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method IsHoldingSomething not implemented")
 }
-func (UnimplementedGripperServiceServer) GetGripperPosition(context.Context, *GetGripperPositionRequest) (*GetGripperPositionResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetGripperPosition not implemented")
+func (UnimplementedGripperServiceServer) GetPosition(context.Context, *GetPositionRequest) (*GetPositionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPosition not implemented")
 }
-func (UnimplementedGripperServiceServer) StreamGripperPosition(*StreamGripperPositionRequest, GripperService_StreamGripperPositionServer) error {
-	return status.Errorf(codes.Unimplemented, "method StreamGripperPosition not implemented")
+func (UnimplementedGripperServiceServer) MoveToPosition(context.Context, *MoveToPositionRequest) (*MoveToPositionResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method MoveToPosition not implemented")
+}
+func (UnimplementedGripperServiceServer) StreamPosition(*StreamPositionRequest, GripperService_StreamPositionServer) error {
+	return status.Errorf(codes.Unimplemented, "method StreamPosition not implemented")
 }
 func (UnimplementedGripperServiceServer) DoCommand(context.Context, *v1.DoCommandRequest) (*v1.DoCommandResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DoCommand not implemented")
@@ -330,42 +346,60 @@ func _GripperService_IsHoldingSomething_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
-func _GripperService_GetGripperPosition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetGripperPositionRequest)
+func _GripperService_GetPosition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPositionRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GripperServiceServer).GetGripperPosition(ctx, in)
+		return srv.(GripperServiceServer).GetPosition(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/viam.component.gripper.v1.GripperService/GetGripperPosition",
+		FullMethod: "/viam.component.gripper.v1.GripperService/GetPosition",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GripperServiceServer).GetGripperPosition(ctx, req.(*GetGripperPositionRequest))
+		return srv.(GripperServiceServer).GetPosition(ctx, req.(*GetPositionRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _GripperService_StreamGripperPosition_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(StreamGripperPositionRequest)
+func _GripperService_MoveToPosition_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(MoveToPositionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GripperServiceServer).MoveToPosition(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/viam.component.gripper.v1.GripperService/MoveToPosition",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GripperServiceServer).MoveToPosition(ctx, req.(*MoveToPositionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _GripperService_StreamPosition_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(StreamPositionRequest)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
-	return srv.(GripperServiceServer).StreamGripperPosition(m, &gripperServiceStreamGripperPositionServer{stream})
+	return srv.(GripperServiceServer).StreamPosition(m, &gripperServiceStreamPositionServer{stream})
 }
 
-type GripperService_StreamGripperPositionServer interface {
-	Send(*StreamGripperPositionResponse) error
+type GripperService_StreamPositionServer interface {
+	Send(*StreamPositionResponse) error
 	grpc.ServerStream
 }
 
-type gripperServiceStreamGripperPositionServer struct {
+type gripperServiceStreamPositionServer struct {
 	grpc.ServerStream
 }
 
-func (x *gripperServiceStreamGripperPositionServer) Send(m *StreamGripperPositionResponse) error {
+func (x *gripperServiceStreamPositionServer) Send(m *StreamPositionResponse) error {
 	return x.ServerStream.SendMsg(m)
 }
 
@@ -451,8 +485,12 @@ var GripperService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _GripperService_IsHoldingSomething_Handler,
 		},
 		{
-			MethodName: "GetGripperPosition",
-			Handler:    _GripperService_GetGripperPosition_Handler,
+			MethodName: "GetPosition",
+			Handler:    _GripperService_GetPosition_Handler,
+		},
+		{
+			MethodName: "MoveToPosition",
+			Handler:    _GripperService_MoveToPosition_Handler,
 		},
 		{
 			MethodName: "DoCommand",
@@ -469,8 +507,8 @@ var GripperService_ServiceDesc = grpc.ServiceDesc{
 	},
 	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "StreamGripperPosition",
-			Handler:       _GripperService_StreamGripperPosition_Handler,
+			StreamName:    "StreamPosition",
+			Handler:       _GripperService_StreamPosition_Handler,
 			ServerStreams: true,
 		},
 	},

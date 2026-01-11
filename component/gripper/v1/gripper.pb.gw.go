@@ -365,11 +365,11 @@ func local_request_GripperService_IsHoldingSomething_0(ctx context.Context, mars
 }
 
 var (
-	filter_GripperService_GetGripperPosition_0 = &utilities.DoubleArray{Encoding: map[string]int{"name": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+	filter_GripperService_GetPosition_0 = &utilities.DoubleArray{Encoding: map[string]int{"name": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
 )
 
-func request_GripperService_GetGripperPosition_0(ctx context.Context, marshaler runtime.Marshaler, client GripperServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetGripperPositionRequest
+func request_GripperService_GetPosition_0(ctx context.Context, marshaler runtime.Marshaler, client GripperServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq GetPositionRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -392,17 +392,17 @@ func request_GripperService_GetGripperPosition_0(ctx context.Context, marshaler 
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GripperService_GetGripperPosition_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GripperService_GetPosition_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.GetGripperPosition(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.GetPosition(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_GripperService_GetGripperPosition_0(ctx context.Context, marshaler runtime.Marshaler, server GripperServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq GetGripperPositionRequest
+func local_request_GripperService_GetPosition_0(ctx context.Context, marshaler runtime.Marshaler, server GripperServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq GetPositionRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -425,21 +425,21 @@ func local_request_GripperService_GetGripperPosition_0(ctx context.Context, mars
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GripperService_GetGripperPosition_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GripperService_GetPosition_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.GetGripperPosition(ctx, &protoReq)
+	msg, err := server.GetPosition(ctx, &protoReq)
 	return msg, metadata, err
 
 }
 
 var (
-	filter_GripperService_StreamGripperPosition_0 = &utilities.DoubleArray{Encoding: map[string]int{"name": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+	filter_GripperService_MoveToPosition_0 = &utilities.DoubleArray{Encoding: map[string]int{"name": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
 )
 
-func request_GripperService_StreamGripperPosition_0(ctx context.Context, marshaler runtime.Marshaler, client GripperServiceClient, req *http.Request, pathParams map[string]string) (GripperService_StreamGripperPositionClient, runtime.ServerMetadata, error) {
-	var protoReq StreamGripperPositionRequest
+func request_GripperService_MoveToPosition_0(ctx context.Context, marshaler runtime.Marshaler, client GripperServiceClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq MoveToPositionRequest
 	var metadata runtime.ServerMetadata
 
 	var (
@@ -462,11 +462,81 @@ func request_GripperService_StreamGripperPosition_0(ctx context.Context, marshal
 	if err := req.ParseForm(); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
-	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GripperService_StreamGripperPosition_0); err != nil {
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GripperService_MoveToPosition_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	stream, err := client.StreamGripperPosition(ctx, &protoReq)
+	msg, err := client.MoveToPosition(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	return msg, metadata, err
+
+}
+
+func local_request_GripperService_MoveToPosition_0(ctx context.Context, marshaler runtime.Marshaler, server GripperServiceServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq MoveToPositionRequest
+	var metadata runtime.ServerMetadata
+
+	var (
+		val string
+		ok  bool
+		err error
+		_   = err
+	)
+
+	val, ok = pathParams["name"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "name")
+	}
+
+	protoReq.Name, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "name", err)
+	}
+
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GripperService_MoveToPosition_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
+	msg, err := server.MoveToPosition(ctx, &protoReq)
+	return msg, metadata, err
+
+}
+
+var (
+	filter_GripperService_StreamPosition_0 = &utilities.DoubleArray{Encoding: map[string]int{"name": 0}, Base: []int{1, 1, 0}, Check: []int{0, 1, 2}}
+)
+
+func request_GripperService_StreamPosition_0(ctx context.Context, marshaler runtime.Marshaler, client GripperServiceClient, req *http.Request, pathParams map[string]string) (GripperService_StreamPositionClient, runtime.ServerMetadata, error) {
+	var protoReq StreamPositionRequest
+	var metadata runtime.ServerMetadata
+
+	var (
+		val string
+		ok  bool
+		err error
+		_   = err
+	)
+
+	val, ok = pathParams["name"]
+	if !ok {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "missing parameter %s", "name")
+	}
+
+	protoReq.Name, err = runtime.String(val)
+	if err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "type mismatch, parameter: %s, error: %v", "name", err)
+	}
+
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_GripperService_StreamPosition_0); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+
+	stream, err := client.StreamPosition(ctx, &protoReq)
 	if err != nil {
 		return nil, metadata, err
 	}
@@ -820,7 +890,7 @@ func RegisterGripperServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 
 	})
 
-	mux.Handle("GET", pattern_GripperService_GetGripperPosition_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_GripperService_GetPosition_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -828,12 +898,12 @@ func RegisterGripperServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/viam.component.gripper.v1.GripperService/GetGripperPosition", runtime.WithHTTPPathPattern("/viam/api/v1/component/gripper/{name}/gripper_position"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/viam.component.gripper.v1.GripperService/GetPosition", runtime.WithHTTPPathPattern("/viam/api/v1/component/gripper/{name}/get_position"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_GripperService_GetGripperPosition_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_GripperService_GetPosition_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -841,11 +911,36 @@ func RegisterGripperServiceHandlerServer(ctx context.Context, mux *runtime.Serve
 			return
 		}
 
-		forward_GripperService_GetGripperPosition_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_GripperService_GetPosition_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_GripperService_StreamGripperPosition_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("PUT", pattern_GripperService_MoveToPosition_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		var stream runtime.ServerTransportStream
+		ctx = grpc.NewContextWithServerTransportStream(ctx, &stream)
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/viam.component.gripper.v1.GripperService/MoveToPosition", runtime.WithHTTPPathPattern("/viam/api/v1/component/gripper/{name}/set_position"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := local_request_GripperService_MoveToPosition_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_GripperService_MoveToPosition_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("GET", pattern_GripperService_StreamPosition_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		err := status.Error(codes.Unimplemented, "streaming calls are not yet supported in the in-process transport")
 		_, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
@@ -1078,47 +1173,69 @@ func RegisterGripperServiceHandlerClient(ctx context.Context, mux *runtime.Serve
 
 	})
 
-	mux.Handle("GET", pattern_GripperService_GetGripperPosition_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("GET", pattern_GripperService_GetPosition_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/viam.component.gripper.v1.GripperService/GetGripperPosition", runtime.WithHTTPPathPattern("/viam/api/v1/component/gripper/{name}/gripper_position"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/viam.component.gripper.v1.GripperService/GetPosition", runtime.WithHTTPPathPattern("/viam/api/v1/component/gripper/{name}/get_position"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_GripperService_GetGripperPosition_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_GripperService_GetPosition_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_GripperService_GetGripperPosition_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_GripperService_GetPosition_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
-	mux.Handle("GET", pattern_GripperService_StreamGripperPosition_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("PUT", pattern_GripperService_MoveToPosition_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/viam.component.gripper.v1.GripperService/StreamGripperPosition", runtime.WithHTTPPathPattern("/viam/api/v1/component/gripper/{name}/stream_gripper_position"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/viam.component.gripper.v1.GripperService/MoveToPosition", runtime.WithHTTPPathPattern("/viam/api/v1/component/gripper/{name}/set_position"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_GripperService_StreamGripperPosition_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_GripperService_MoveToPosition_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_GripperService_StreamGripperPosition_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
+		forward_GripperService_MoveToPosition_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+
+	})
+
+	mux.Handle("GET", pattern_GripperService_StreamPosition_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+		ctx, cancel := context.WithCancel(req.Context())
+		defer cancel()
+		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
+		var err error
+		var annotatedContext context.Context
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/viam.component.gripper.v1.GripperService/StreamPosition", runtime.WithHTTPPathPattern("/viam/api/v1/component/gripper/{name}/stream_position"))
+		if err != nil {
+			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
+			return
+		}
+		resp, md, err := request_GripperService_StreamPosition_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
+		if err != nil {
+			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
+			return
+		}
+
+		forward_GripperService_StreamPosition_0(annotatedContext, mux, outboundMarshaler, w, req, func() (proto.Message, error) { return resp.Recv() }, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -1202,9 +1319,11 @@ var (
 
 	pattern_GripperService_IsHoldingSomething_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"viam", "api", "v1", "component", "gripper", "name", "is_holding_something"}, ""))
 
-	pattern_GripperService_GetGripperPosition_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"viam", "api", "v1", "component", "gripper", "name", "gripper_position"}, ""))
+	pattern_GripperService_GetPosition_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"viam", "api", "v1", "component", "gripper", "name", "get_position"}, ""))
 
-	pattern_GripperService_StreamGripperPosition_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"viam", "api", "v1", "component", "gripper", "name", "stream_gripper_position"}, ""))
+	pattern_GripperService_MoveToPosition_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"viam", "api", "v1", "component", "gripper", "name", "set_position"}, ""))
+
+	pattern_GripperService_StreamPosition_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"viam", "api", "v1", "component", "gripper", "name", "stream_position"}, ""))
 
 	pattern_GripperService_DoCommand_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1, 2, 2, 2, 3, 2, 4, 1, 0, 4, 1, 5, 5, 2, 6}, []string{"viam", "api", "v1", "component", "gripper", "name", "do_command"}, ""))
 
@@ -1224,9 +1343,11 @@ var (
 
 	forward_GripperService_IsHoldingSomething_0 = runtime.ForwardResponseMessage
 
-	forward_GripperService_GetGripperPosition_0 = runtime.ForwardResponseMessage
+	forward_GripperService_GetPosition_0 = runtime.ForwardResponseMessage
 
-	forward_GripperService_StreamGripperPosition_0 = runtime.ForwardResponseStream
+	forward_GripperService_MoveToPosition_0 = runtime.ForwardResponseMessage
+
+	forward_GripperService_StreamPosition_0 = runtime.ForwardResponseStream
 
 	forward_GripperService_DoCommand_0 = runtime.ForwardResponseMessage
 
