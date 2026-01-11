@@ -40,18 +40,18 @@ service GripperService {
   }
 
   // GetGripperPosition gets the current gripper position
-  rpc GetGripperPosition(GetGripperPositionRequest) returns (GetGripperPositionResponse) {
-    option (google.api.http) = {get: "/viam/api/v1/component/gripper/{name}/get_gripper_position"};
+  rpc GetPosition(GetPositionRequest) returns (GetPositionResponse) {
+    option (google.api.http) = {get: "/viam/api/v1/component/gripper/{name}/get_position"};
   }
 
   // SetGripperPosition sets the gripper to a specified position
-  rpc SetGripperPosition(SetGripperPositionRequest) returns (SetGripperPositionResponse) {
-    option (google.api.http) = {put: "/viam/api/v1/component/gripper/{name}/set_gripper_position"};
+  rpc SetPosition(SetPositionRequest) returns (SetPositionResponse) {
+    option (google.api.http) = {put: "/viam/api/v1/component/gripper/{name}/set_position"};
   }
 
   // StreamGripperPosition streams gripper positions at a specified rate
-  rpc StreamGripperPosition(StreamGripperPositionRequest) returns (stream StreamGripperPositionResponse) {
-    option (google.api.http) = {get: "/viam/api/v1/component/gripper/{name}/stream_gripper_position"};
+  rpc StreamPosition(StreamPositionRequest) returns (stream StreamPositionResponse) {
+    option (google.api.http) = {get: "/viam/api/v1/component/gripper/{name}/stream_position"};
   }
 
   // DoCommand sends/receives arbitrary commands
@@ -119,19 +119,19 @@ message GripperPosition {
   repeated double values = 1;
 }
 
-message GetGripperPositionRequest {
+message GetPositionRequest {
   // Name of a gripper
   string name = 1;
   // Additional arguments to the method
   google.protobuf.Struct extra = 99;
 }
 
-message GetGripperPositionResponse {
+message GetPositionResponse {
   // Current gripper position
   GripperPosition position = 1;
 }
 
-message SetGripperPositionRequest {
+message SetPositionRequest {
   // Name of a gripper
   string name = 1;
   // Target gripper position
@@ -140,12 +140,12 @@ message SetGripperPositionRequest {
   google.protobuf.Struct extra = 99;
 }
 
-message SetGripperPositionResponse {
+message SetPositionResponse {
   // Acknowledgment of setting the position
   google.protobuf.Struct meta = 99;
 }
 
-message StreamGripperPositionRequest {
+message StreamPositionRequest {
   // Name of a gripper
   string name = 1;
   // Target frames per second for the stream
@@ -154,7 +154,7 @@ message StreamGripperPositionRequest {
   google.protobuf.Struct extra = 99;
 }
 
-message StreamGripperPositionResponse {
+message StreamPositionResponse {
   // Current gripper position
   GripperPosition position = 1;
   // Timestamp when position was captured from the gripper hardware
