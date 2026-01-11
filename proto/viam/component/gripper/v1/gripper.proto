@@ -45,7 +45,7 @@ service GripperService {
   }
 
   // SetGripperPosition sets the gripper to a specified position
-  rpc SetPosition(SetPositionRequest) returns (SetPositionResponse) {
+  rpc MoveToPosition(MoveToPositionRequest) returns (MoveToPositionResponse) {
     option (google.api.http) = {put: "/viam/api/v1/component/gripper/{name}/set_position"};
   }
 
@@ -131,7 +131,7 @@ message GetPositionResponse {
   GripperPosition position = 1;
 }
 
-message SetPositionRequest {
+message MoveToPositionRequest {
   // Name of a gripper
   string name = 1;
   // Target gripper position
@@ -140,7 +140,7 @@ message SetPositionRequest {
   google.protobuf.Struct extra = 99;
 }
 
-message SetPositionResponse {
+message MoveToPositionResponse {
   // Acknowledgment of setting the position
   google.protobuf.Struct meta = 99;
 }
