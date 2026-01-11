@@ -24,6 +24,16 @@ service GripperService {
     option (google.api.http) = {put: "/viam/api/v1/component/gripper/{name}/grab"};
   }
 
+  // GetPosition returns a gripper's current position
+  rpc GetPosition(GetGripperPositionRequest) returns (GetGripperPositionResponse) {
+    option (google.api.http) = {get: "/viam/api/v1/component/gripper/{name}/get_position"};
+  }
+
+  // SetPosition sets a gripper's position
+  rpc SetPosition(SetGripperPositionRequest) returns (SetGripperPositionResponse) {
+    option (google.api.http) = {put: "/viam/api/v1/component/gripper/{name}/set_position"};
+  }
+
   // Stop stops a robot's gripper
   rpc Stop(StopRequest) returns (StopResponse) {
     option (google.api.http) = {post: "/viam/api/v1/component/gripper/{name}/stop"};
@@ -124,6 +134,20 @@ message GetGripperPositionRequest {
 message GetGripperPositionResponse {
   // Current gripper position
   GripperPosition position = 1;
+}
+
+message SetGripperPositionRequest {
+  // Name of a gripper
+  string name = 1;
+  // Target gripper position
+  GripperPosition position = 2;
+  // Additional arguments to the method
+  google.protobuf.Struct extra = 99;
+}
+
+message SetGripperPositionResponse {
+  // Acknowledgment of setting the position
+  google.protobuf.Struct meta = 99;
 }
 
 message StreamGripperPositionRequest {
